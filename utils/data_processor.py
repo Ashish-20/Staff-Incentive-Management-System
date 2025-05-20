@@ -25,7 +25,7 @@ def generate_download_files(file, l2_inputs):
     df = pd.read_excel(file, sheet_name="raw data")
 
     # Raw Pivot
-    raw_pivot = df.pivot_table(index="L2 Description", values="AMOUNT", aggfunc="sum")
+    raw_pivot = df.pivot_table(index="L2 Description", values="FUNCTIONAL_AMOUNT", aggfunc="sum")
     raw_buffer = BytesIO()
     raw_pivot.to_excel(raw_buffer)
     raw_buffer.seek(0)
