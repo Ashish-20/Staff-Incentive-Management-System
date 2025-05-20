@@ -11,21 +11,27 @@ uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx"])
 if uploaded_file:
     try:
         if check_nominal(uploaded_file):
-            st.success("Data with Nominal 505XXXXXXX is loaded.")
+            st.success("✅ Data with Nominal starting with 505 is successfully loaded.")
             l2_values = get_l2_descriptions(uploaded_file)
-
+            st.markdown("---")
+            st.header("🧮 Enter Inputs for each GB/GF")
             user_inputs = get_l2_user_inputs(l2_values)
 
             if st.button("Generate Output Files"):
                 raw_df, staff_incentive_df, pivots, l2_outputs = generate_download_files(
                     uploaded_file, user_inputs
                 )
-
+                st.markdown("---")
+                st.header("📊 Raw Data Pivot")
                 st.download_button("📥 Download Raw Data Pivot", pivots["raw"], file_name="Raw_Pivot.xlsx")
                 buffer = BytesIO()
                 staff_incentive_df.to_excel(buffer, index=False)
                 buffer.seek(0)
+                st.markdown("---")
+                st.header("📊 Staff Incentive Raw Data")
                 st.download_button("📥 Download Staff Incentive Raw Data", data=buffer, file_name="Staff_Incentive_Raw_Data.xlsx")
+                st.markdown("---")
+                st.header("📊 Staff Incentive Pivot")
                 #st.download_button("📥 Download Staff Incentive Raw Data", staff_incentive_df.to_excel(index=False), file_name="Staff_Incentive_Raw_Data.xlsx")
                 st.download_button("📥 Download Staff Incentive Pivot", pivots["incentive"], file_name="Staff_Incentive_Pivot.xlsx")
 
