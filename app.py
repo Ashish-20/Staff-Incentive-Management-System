@@ -4,7 +4,7 @@ from utils.data_processor import get_l2_user_inputs, generate_download_files, ch
 from io import BytesIO
 
 st.set_page_config(layout="wide")
-st.title("🧾 Staff Incentive Management System 2")
+st.title("🧾 Staff Incentive Management System")
 
 uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx"])
 
@@ -29,9 +29,29 @@ if uploaded_file:
                 #st.download_button("📥 Download Staff Incentive Raw Data", staff_incentive_df.to_excel(index=False), file_name="Staff_Incentive_Raw_Data.xlsx")
                 st.download_button("📥 Download Staff Incentive Pivot", pivots["incentive"], file_name="Staff_Incentive_Pivot.xlsx")
 
+
                 st.subheader("📂 Download Individual L2 Files")
+
                 for l2, file in l2_outputs.items():
-                    st.download_button(f"📁 {l2}", file, file_name=f"{l2}.xlsx")
+                    col1, col2 = st.columns([3, 1])  # 3:1 ratio for download and send
+
+                    with col1:
+                        st.download_button(
+                            f"📥 Download {l2} File",
+                            data=file,
+                            file_name=f"{l2}_Staff_Incentive.xlsx"
+                        )
+
+                    with col2:
+                        if st.button(f"📧 Send Email - {l2}"):
+                            st.info("Email functionality is only available in the desktop version.")
+
+
+             
+                
+                # st.subheader("📂 Download Individual L2 Files")
+                # for l2, file in l2_outputs.items():
+                #     st.download_button(f"📁 {l2}", file, file_name=f"{l2}.xlsx")
 
     except Exception as e:
         st.error(f"Processing failed: {e}")
