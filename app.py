@@ -30,23 +30,48 @@ if uploaded_file:
                 st.download_button("📥 Download Staff Incentive Pivot", pivots["incentive"], file_name="Staff_Incentive_Pivot.xlsx")
 
 
-                st.subheader("📂 Download Individual L2 Files")
+                # st.subheader("📂 Download Individual L2 Files")
 
-                for l2, file in l2_outputs.items():
-                    col1, col2 = st.columns([3, 1])  # 3:1 ratio for download and send
+                # for l2, file in l2_outputs.items():
+                #     col1, col2 = st.columns([3, 1])  # 3:1 ratio for download and send
 
-                    with col1:
-                        st.download_button(
-                            f"📥 Download {l2} File",
-                            data=file,
-                            file_name=f"{l2}_Staff_Incentive.xlsx"
-                        )
+                #     with col1:
+                #         st.download_button(
+                #             f"📥 Download {l2} File",
+                #             data=file,
+                #             file_name=f"{l2}_Staff_Incentive.xlsx"
+                #         )
 
-                    with col2:
-                        if st.button(f"📧 Send Email - {l2}"):
-                            st.info("Email functionality is only available in the desktop version.")
+                #     with col2:
+                #         if st.button(f"📧 Send Email - {l2}"):
+                #             st.info("Email functionality is only available in the desktop version.")
 
+                # st.subheader("📂 Download Individual L2 Files")
 
+# Store email buttons for centralized handling
+send_email_flags = {}
+
+for l2, file in l2_outputs.items():
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.download_button(
+            label=f"📥 Download {l2}",
+            data=file,
+            file_name=f"{l2}_Staff_Incentive.xlsx"
+        )
+
+    with col2:
+        send_email_flags[l2] = st.checkbox(f"Send Email for {l2}", key=f"send_{l2}")
+
+# One central button to simulate sending all selected emails
+if st.button("📤 Send All Selected Emails"):
+    selected = [l2 for l2, flag in send_email_flags.items() if flag]
+    if selected:
+        for l2 in selected:
+            st.success(f"Email would be sent for: {l2} (only on desktop)")
+    else:
+        st.warning("Please select at least one L2 to send email.")
              
                 
                 # st.subheader("📂 Download Individual L2 Files")
