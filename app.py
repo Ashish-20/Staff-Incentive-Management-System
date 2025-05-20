@@ -62,7 +62,7 @@ if uploaded_file:
 
                     with col1:
                         st.download_button(
-                            label=f"📥 Download {l2}",
+                            label=f"📥 {l2}",
                             data=file,
                             file_name=f"{l2}_Staff_Incentive.xlsx"
                         )
