@@ -7,7 +7,7 @@ def check_nominal(file):
 
 def get_l2_descriptions(file):
     df = pd.read_excel(file, sheet_name="raw data")
-    return df["BM"].dropna().unique()
+    return df["L2 Description"].dropna().unique()
 
 def get_l2_user_inputs(l2_values):
     inputs = {}
@@ -23,20 +23,20 @@ def generate_download_files(file, l2_inputs):
     df = pd.read_excel(file, sheet_name="raw data")
 
     # Raw Pivot
-    raw_pivot = df.pivot_table(index="BM", values="AMOUNT", aggfunc="sum")
+    raw_pivot = df.pivot_table(index="L2 Description", values="AMOUNT", aggfunc="sum")
     raw_buffer = BytesIO()
     raw_pivot.to_excel(raw_buffer)
     raw_buffer.seek(0)
 
     # Staff Incentive Data
-    filtered_df = df[df["BQ"] == "Staff Incentive"]
-    columns_needed = ['C', 'D', 'E', 'M', 'P', 'Q', 'R', 'V', 'W', 'X', 'Z',
-                      'AG', 'AL', 'AS', 'AY', 'AZ', 'BA', 'BI', 'BK', 'BL',
-                      'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS']
+    filtered_df = df[df["Nature of Expenses"] == "Staff Incentive"]
+    columns_needed = [ "Cost Centre", "NOMINAL", "PO NO", "Budgeted USD", "Actual USD", 
+    "Variance", "FY", "Period", "Country", "LOB", "Region", 
+    "L2 Description", "Nature of Expenses"]
     filtered_df = filtered_df[filtered_df.columns.intersection(columns_needed)]
 
     # Staff Incentive Pivot
-    staff_pivot = filtered_df.pivot_table(index="BM", values=filtered_df.columns[-1], aggfunc="count")
+    staff_pivot = filtered_df.pivot_table(index="L2 Description", values=filtered_df.columns[-1], aggfunc="count")
     incentive_buffer = BytesIO()
     staff_pivot.to_excel(incentive_buffer)
     incentive_buffer.seek(0)
@@ -44,7 +44,7 @@ def generate_download_files(file, l2_inputs):
     # L2 Descriptions
     l2_outputs = {}
     for l2, data in l2_inputs.items():
-        l2_df = filtered_df[filtered_df["BM"] == l2]
+        l2_df = filtered_df[filtered_df["L2 Description"] == l2]
         output_buffer = BytesIO()
         with pd.ExcelWriter(output_buffer, engine="xlsxwriter") as writer:
             l2_df.to_excel(writer, index=False, sheet_name="Data")
