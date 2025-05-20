@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from utils.data_processor import get_l2_user_inputs, generate_download_files, check_nominal, get_l2_descriptions
+from io import BytesIO
 
 st.set_page_config(layout="wide")
 st.title("🧾 Staff Incentive Management System 2")
@@ -20,8 +21,12 @@ if uploaded_file:
                     uploaded_file, user_inputs
                 )
 
-                st.download_button("📥 Download Raw Pivot", pivots["raw"], file_name="Raw_Pivot.xlsx")
-                st.download_button("📥 Download Staff Incentive Raw Data", staff_incentive_df.to_excel(index=False), file_name="Staff_Incentive_Raw_Data.xlsx")
+                st.download_button("📥 Download Raw Data Pivot", pivots["raw"], file_name="Raw_Pivot.xlsx")
+                buffer = BytesIO()
+                staff_incentive_df.to_excel(buffer, index=False)
+                buffer.seek(0)
+                st.download_button("📥 Download Staff Incentive Raw Data", data=buffer, file_name="Staff_Incentive_Raw_Data.xlsx")
+                #st.download_button("📥 Download Staff Incentive Raw Data", staff_incentive_df.to_excel(index=False), file_name="Staff_Incentive_Raw_Data.xlsx")
                 st.download_button("📥 Download Staff Incentive Pivot", pivots["incentive"], file_name="Staff_Incentive_Pivot.xlsx")
 
                 st.subheader("📂 Download Individual L2 Files")
