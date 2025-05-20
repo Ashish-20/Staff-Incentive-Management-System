@@ -14,7 +14,7 @@ def get_l2_descriptions(file):
 def get_l2_user_inputs(l2_values):
     inputs = {}
     for l2 in l2_values:
-        st.subheader(f"L2 Description: {l2}")
+        st.subheader(f"{l2}")
         headcount = st.number_input(f"Enter Headcount for {l2}", min_value=0, key=f"{l2}_hc")
         budget = st.number_input(f"Enter Budget (USD) for {l2}", min_value=0.0, key=f"{l2}_bdg")
         conv_rate = st.number_input(f"Enter Conversion Rate for {l2}", min_value=0.0, key=f"{l2}_rate")
