@@ -62,7 +62,7 @@ if uploaded_file:
                         )
 
                     with col2:
-                    send_email_flags[l2] = st.checkbox(f"Send Email for {l2}", key=f"send_{l2}")
+                        send_email_flags[l2] = st.checkbox(f"Send Email for {l2}", key=f"send_{l2}")
 
 # One central button to simulate sending all selected emails
                 if st.button("📤 Send All Selected Emails"):
