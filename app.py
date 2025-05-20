@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from utils.data_processor import process_excel, get_l2_user_inputs, generate_download_files, check_nominal, get_l2_descriptions
+from utils.data_processor import get_l2_user_inputs, generate_download_files, check_nominal, get_l2_descriptions
 
 st.set_page_config(layout="wide")
 st.title("🧾 Staff Incentive Management System")
