@@ -51,8 +51,8 @@ if uploaded_file:
                 #     with col2:
                 #         if st.button(f"📧 Send Email - {l2}"):
                 #             st.info("Email functionality is only available in the desktop version.")
-
-                st.subheader("📂 Download Individual L2 Files")
+                st.markdown("---")
+                st.header("📂 Download Individual GB/GF files")
 
 # Store email buttons for centralized handling
                 send_email_flags = {}
