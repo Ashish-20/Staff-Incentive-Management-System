@@ -3,6 +3,7 @@ from io import BytesIO
 
 def check_nominal(file):
     df = pd.read_excel(file, sheet_name="raw data")
+    print("Columns found:", df.columns.tolist())
     return df["NOMINAL"].astype(str).str.startswith("505").any()
 
 def get_l2_descriptions(file):
